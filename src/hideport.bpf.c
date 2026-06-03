@@ -396,6 +396,8 @@ static __always_inline int record_getsockname_user_addr(__s32 fd, __u64 uaddr)
     __u16 *port = bpf_map_lookup_elem(&fd_bound_ports, &fd_key);
     struct bind_rewrite_state state = {};
 
+    bpf_map_delete_elem(&pending_getsockname, &pending_key);
+
     if (fd < 0 || !port || !uaddr)
         return 0;
 
